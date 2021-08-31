@@ -1,0 +1,106 @@
+﻿@model NBS.Tb_Users
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_SidePanel.cshtml";
+}
+
+@using (Html.BeginForm("Create", "Users", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h3><strong>Create New Users</strong></h3>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.CheckBoxFor(model => model.Status, new { @checked = "checked", @type = "hidden" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Cell, new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Cell, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Cell, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.User, new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.User, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.User, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Pwd, "Password", new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.PasswordFor(model => model.Pwd, new { htmlAttributes = new { @class = "form-control", placeholder = "Password" } })
+                @Html.ValidationMessageFor(model => model.Pwd, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RoleId, "Role", new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownList("RoleId", null, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
+            </div>
+
+        </div><div class="form-group">
+            @Html.LabelFor(model => model.AreaId, "Area", new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownList("AreaId", null, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address, new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Photo, "Photo", new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <input type="file" name="hpfBase" id="file" title="Browse" class="form-control" onchange="FxShow(this)" />
+            </div>
+            <div>
+                <img id="uPic" alt="Photo" style="width: 84px; height:96px; border:solid;" onclick="FxRemove(this)" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-4">
+                <button type="submit" class="btn btn-outline-success">
+                    <i class="fas fa-user-plus mr-2"> Create</i>
+                </button> &nbsp; | &nbsp;
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    function FxShow(input) {
+        if (input.files && input.files[0]) {
+            var filerdr = new FileReader();
+            filerdr.onload = function (e) {
+                $('#uPic').attr('src', e.target.result);
+            }
+            filerdr.readAsDataURL(input.files[0]);
+        }
+    }
+    // Remove Selected Images
+    function FxRemove(element) {
+        element.remove();
+    }
+</script>

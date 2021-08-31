@@ -1,0 +1,48 @@
+﻿@model NBS.Tb_Client
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_SidePanel.cshtml";
+}
+
+@using (Html.BeginForm("Details", "Client", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h3><strong>Amount Collection</strong></h3>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        <dl class="dl-horizontal">
+            <dd>
+                <strong>Code &nbsp;:&nbsp; </strong>@Html.DisplayFor(model => model.Code)
+            </dd>
+            <dd>
+                <strong>Name &nbsp;:&nbsp; </strong>@Html.DisplayFor(model => model.Name)
+            </dd>
+            <dd>
+                <strong>Area &nbsp;:&nbsp; </strong>@Html.DisplayFor(model => model.Tb_Area.Area)
+            </dd>
+            <dd>
+                <strong>Category &nbsp;:&nbsp; </strong>@Html.DisplayFor(model => model.Tb_Type.Type)
+            </dd>
+            <dd>
+                <strong>Month &nbsp;:&nbsp; </strong>@Html.EditorFor(model => model.Start)
+            </dd>
+            <dd>
+                <strong>Amount &nbsp;:&nbsp; </strong>@Html.EditorFor(model => model.MonAmt)
+            </dd>
+            <dd>
+                <strong>Remark &nbsp;:&nbsp; </strong>@Html.EditorFor(model => model.Remark)
+            </dd>
+        </dl>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" id="btnSave" class="click btn btn-outline-success">
+                    <i class="fas fa-save mr-2"> Save</i>
+                </button> &nbsp; | &nbsp;
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        </div>
+    </div>
+}

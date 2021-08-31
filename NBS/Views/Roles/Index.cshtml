@@ -1,0 +1,69 @@
+﻿@model IEnumerable<NBS.Tb_Roles>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_SidePanel.cshtml";
+}
+
+<div class="row mb-2">
+    <div class="col col-lg-12">
+        <h3><strong>Roles Information</strong></h3>
+        <hr />
+        @using (Html.BeginForm("Index", "Roles", FormMethod.Get, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="input-group">
+                <select class="form-control" name="sRole">
+                    <option value="">Select Roles</option>
+                    @foreach (var oRole in Model)
+                    {
+                        <option value="@oRole.Role">@oRole.Role</option>
+                    }
+                </select>
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-primary">
+                        <i class="fas fa-search mr-2"></i>Search
+                    </button>
+                    <a class="btn btn-outline-secondary" href="@Url.Action("Index", "Roles")">
+                        <i class="fas fa-redo mr-2"></i>Reset
+                    </a>
+                    <a href="@Url.Action("Create", "Roles")" class="btn-data btn btn-outline-success">
+                        <i class="fas fa-plus mr-2"></i>Create
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col col-lg-12">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col" width="960px">Role Name</th>
+                    <th scope="col" width="60px">Status</th>
+                    <th scope="col" width="120px">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr style="margin-left:auto;">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Role)
+                        </td>
+                        <td align="center">
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

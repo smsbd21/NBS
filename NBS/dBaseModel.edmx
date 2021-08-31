@@ -1,0 +1,614 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="NetBillModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Tb_Area">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Area" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tb_Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="AreaId" Type="tinyint" Nullable="false" />
+          <Property Name="TypeId" Type="tinyint" Nullable="false" />
+          <Property Name="Start" Type="date" Nullable="false" />
+          <Property Name="Close" Type="date" />
+          <Property Name="MonAmt" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="SrvAmt" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'NetBill.dbo.Tb_Collect' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Tb_Collect">
+          <Key>
+            <PropertyRef Name="CustId" />
+            <PropertyRef Name="PayDate" />
+            <PropertyRef Name="PayMon" />
+            <PropertyRef Name="PayAmt" />
+          </Key>
+          <Property Name="CustId" Type="int" Nullable="false" />
+          <Property Name="PayDate" Type="date" Nullable="false" />
+          <Property Name="PayMon" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="PayAmt" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="256" />
+          <Property Name="AddedBy" Type="tinyint" />
+          <Property Name="AddTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Tb_Roles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Role" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tb_Type">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="MonAmt" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tb_Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Cell" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="User" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Pwd" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AreaId" Type="tinyint" Nullable="false" />
+          <Property Name="RoleId" Type="tinyint" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="256" />
+          <Property Name="Photo" Type="nvarchar(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'NetBill.dbo.Vw_Dues' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Vw_Dues">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Code" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="MonAmt" />
+            <PropertyRef Name="TotMon" />
+            <PropertyRef Name="TotAmt" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="MonAmt" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="FMon" Type="date" />
+          <Property Name="TMon" Type="date" />
+          <Property Name="TotMon" Type="int" Nullable="false" />
+          <Property Name="TotAmt" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'NetBill.dbo.Vw_Paid' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Vw_Paid">
+          <Key>
+            <PropertyRef Name="CustId" />
+            <PropertyRef Name="Code" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="PayDate" />
+            <PropertyRef Name="PayMon" />
+            <PropertyRef Name="PayAmt" />
+          </Key>
+          <Property Name="CustId" Type="int" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="PayDate" Type="date" Nullable="false" />
+          <Property Name="PayMon" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="PayAmt" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <Association Name="FK_CollCust">
+          <End Role="Tb_Client" Type="Self.Tb_Client" Multiplicity="1" />
+          <End Role="Tb_Collect" Type="Self.Tb_Collect" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tb_Collect">
+              <PropertyRef Name="CustId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustArea">
+          <End Role="Tb_Area" Type="Self.Tb_Area" Multiplicity="1" />
+          <End Role="Tb_Client" Type="Self.Tb_Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Area">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tb_Client">
+              <PropertyRef Name="AreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustType">
+          <End Role="Tb_Type" Type="Self.Tb_Type" Multiplicity="1" />
+          <End Role="Tb_Client" Type="Self.Tb_Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tb_Client">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserArea">
+          <End Role="Tb_Area" Type="Self.Tb_Area" Multiplicity="1" />
+          <End Role="Tb_Users" Type="Self.Tb_Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Area">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tb_Users">
+              <PropertyRef Name="AreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole">
+          <End Role="Tb_Roles" Type="Self.Tb_Roles" Multiplicity="1" />
+          <End Role="Tb_Users" Type="Self.Tb_Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Roles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tb_Users">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="Sp_Login" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usr" Type="nvarchar" Mode="In" />
+          <Parameter Name="pwd" Type="nvarchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="NetBillModelStoreContainer">
+          <EntitySet Name="Tb_Area" EntityType="Self.Tb_Area" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tb_Client" EntityType="Self.Tb_Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tb_Roles" EntityType="Self.Tb_Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tb_Type" EntityType="Self.Tb_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tb_Users" EntityType="Self.Tb_Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tb_Collect" EntityType="Self.Tb_Collect" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Tb_Collect].[CustId] AS [CustId], 
+    [Tb_Collect].[PayDate] AS [PayDate], 
+    [Tb_Collect].[PayMon] AS [PayMon], 
+    [Tb_Collect].[PayAmt] AS [PayAmt], 
+    [Tb_Collect].[Remark] AS [Remark], 
+    [Tb_Collect].[AddedBy] AS [AddedBy], 
+    [Tb_Collect].[AddTime] AS [AddTime]
+    FROM [dbo].[Tb_Collect] AS [Tb_Collect]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Vw_Dues" EntityType="Self.Vw_Dues" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Vw_Dues].[Id] AS [Id], 
+    [Vw_Dues].[Code] AS [Code], 
+    [Vw_Dues].[Name] AS [Name], 
+    [Vw_Dues].[MonAmt] AS [MonAmt], 
+    [Vw_Dues].[FMon] AS [FMon], 
+    [Vw_Dues].[TMon] AS [TMon], 
+    [Vw_Dues].[TotMon] AS [TotMon], 
+    [Vw_Dues].[TotAmt] AS [TotAmt]
+    FROM [dbo].[Vw_Dues] AS [Vw_Dues]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Vw_Paid" EntityType="Self.Vw_Paid" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Vw_Paid].[CustId] AS [CustId], 
+    [Vw_Paid].[Code] AS [Code], 
+    [Vw_Paid].[Name] AS [Name], 
+    [Vw_Paid].[PayDate] AS [PayDate], 
+    [Vw_Paid].[PayMon] AS [PayMon], 
+    [Vw_Paid].[PayAmt] AS [PayAmt], 
+    [Vw_Paid].[Remark] AS [Remark]
+    FROM [dbo].[Vw_Paid] AS [Vw_Paid]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_CollCust" Association="Self.FK_CollCust">
+            <End Role="Tb_Client" EntitySet="Tb_Client" />
+            <End Role="Tb_Collect" EntitySet="Tb_Collect" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustArea" Association="Self.FK_CustArea">
+            <End Role="Tb_Area" EntitySet="Tb_Area" />
+            <End Role="Tb_Client" EntitySet="Tb_Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustType" Association="Self.FK_CustType">
+            <End Role="Tb_Type" EntitySet="Tb_Type" />
+            <End Role="Tb_Client" EntitySet="Tb_Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserArea" Association="Self.FK_UserArea">
+            <End Role="Tb_Area" EntitySet="Tb_Area" />
+            <End Role="Tb_Users" EntitySet="Tb_Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole" Association="Self.FK_UserRole">
+            <End Role="Tb_Roles" EntitySet="Tb_Roles" />
+            <End Role="Tb_Users" EntitySet="Tb_Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NetBillModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Tb_Area">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Area" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Tb_Client" Relationship="Self.FK_CustArea" FromRole="Tb_Area" ToRole="Tb_Client" />
+          <NavigationProperty Name="Tb_Users" Relationship="Self.FK_UserArea" FromRole="Tb_Area" ToRole="Tb_Users" />
+        </EntityType>
+        <EntityType Name="Tb_Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AreaId" Type="Byte" Nullable="false" />
+          <Property Name="TypeId" Type="Byte" Nullable="false" />
+          <Property Name="Start" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Close" Type="DateTime" Precision="0" />
+          <Property Name="MonAmt" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="SrvAmt" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tb_Area" Relationship="Self.FK_CustArea" FromRole="Tb_Client" ToRole="Tb_Area" />
+          <NavigationProperty Name="Tb_Collect" Relationship="Self.FK_CollCust" FromRole="Tb_Client" ToRole="Tb_Collect" />
+          <NavigationProperty Name="Tb_Type" Relationship="Self.FK_CustType" FromRole="Tb_Client" ToRole="Tb_Type" />
+        </EntityType>
+        <EntityType Name="Tb_Roles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Role" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Tb_Users" Relationship="Self.FK_UserRole" FromRole="Tb_Roles" ToRole="Tb_Users" />
+        </EntityType>
+        <EntityType Name="Tb_Type">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MonAmt" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Tb_Client" Relationship="Self.FK_CustType" FromRole="Tb_Type" ToRole="Tb_Client" />
+        </EntityType>
+        <EntityType Name="Tb_Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Cell" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="User" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Pwd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AreaId" Type="Byte" Nullable="false" />
+          <Property Name="RoleId" Type="Byte" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tb_Area" Relationship="Self.FK_UserArea" FromRole="Tb_Users" ToRole="Tb_Area" />
+          <NavigationProperty Name="Tb_Roles" Relationship="Self.FK_UserRole" FromRole="Tb_Users" ToRole="Tb_Roles" />
+        </EntityType>
+        <EntityType Name="Tb_Collect">
+          <Key>
+            <PropertyRef Name="CustId" />
+            <PropertyRef Name="PayDate" />
+            <PropertyRef Name="PayMon" />
+            <PropertyRef Name="PayAmt" />
+          </Key>
+          <Property Name="CustId" Type="Int32" Nullable="false" />
+          <Property Name="PayDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PayMon" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PayAmt" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="AddedBy" Type="Byte" />
+          <Property Name="AddTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Tb_Client" Relationship="Self.FK_CollCust" FromRole="Tb_Collect" ToRole="Tb_Client" />
+        </EntityType>
+        <EntityType Name="Vw_Dues">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Code" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="MonAmt" />
+            <PropertyRef Name="TotMon" />
+            <PropertyRef Name="TotAmt" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MonAmt" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="FMon" Type="DateTime" Precision="0" />
+          <Property Name="TMon" Type="DateTime" Precision="0" />
+          <Property Name="TotMon" Type="Int32" Nullable="false" />
+          <Property Name="TotAmt" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Vw_Paid">
+          <Key>
+            <PropertyRef Name="CustId" />
+            <PropertyRef Name="Code" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="PayDate" />
+            <PropertyRef Name="PayMon" />
+            <PropertyRef Name="PayAmt" />
+          </Key>
+          <Property Name="CustId" Type="Int32" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PayDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PayMon" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PayAmt" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_CustArea">
+          <End Role="Tb_Area" Type="Self.Tb_Area" Multiplicity="1" />
+          <End Role="Tb_Client" Type="Self.Tb_Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Area">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tb_Client">
+              <PropertyRef Name="AreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserArea">
+          <End Role="Tb_Area" Type="Self.Tb_Area" Multiplicity="1" />
+          <End Role="Tb_Users" Type="Self.Tb_Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Area">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tb_Users">
+              <PropertyRef Name="AreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CollCust">
+          <End Role="Tb_Client" Type="Self.Tb_Client" Multiplicity="1" />
+          <End Role="Tb_Collect" Type="Self.Tb_Collect" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tb_Collect">
+              <PropertyRef Name="CustId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustType">
+          <End Role="Tb_Type" Type="Self.Tb_Type" Multiplicity="1" />
+          <End Role="Tb_Client" Type="Self.Tb_Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tb_Client">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole">
+          <End Role="Tb_Roles" Type="Self.Tb_Roles" Multiplicity="1" />
+          <End Role="Tb_Users" Type="Self.Tb_Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Roles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tb_Users">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbCon" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Tb_Area" EntityType="Self.Tb_Area" />
+          <EntitySet Name="Tb_Client" EntityType="Self.Tb_Client" />
+          <EntitySet Name="Tb_Roles" EntityType="Self.Tb_Roles" />
+          <EntitySet Name="Tb_Type" EntityType="Self.Tb_Type" />
+          <EntitySet Name="Tb_Users" EntityType="Self.Tb_Users" />
+          <EntitySet Name="Tb_Collect" EntityType="Self.Tb_Collect" />
+          <EntitySet Name="Vw_Dues" EntityType="Self.Vw_Dues" />
+          <EntitySet Name="Vw_Paid" EntityType="Self.Vw_Paid" />
+          <AssociationSet Name="FK_CustArea" Association="Self.FK_CustArea">
+            <End Role="Tb_Area" EntitySet="Tb_Area" />
+            <End Role="Tb_Client" EntitySet="Tb_Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserArea" Association="Self.FK_UserArea">
+            <End Role="Tb_Area" EntitySet="Tb_Area" />
+            <End Role="Tb_Users" EntitySet="Tb_Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CollCust" Association="Self.FK_CollCust">
+            <End Role="Tb_Client" EntitySet="Tb_Client" />
+            <End Role="Tb_Collect" EntitySet="Tb_Collect" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustType" Association="Self.FK_CustType">
+            <End Role="Tb_Type" EntitySet="Tb_Type" />
+            <End Role="Tb_Client" EntitySet="Tb_Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole" Association="Self.FK_UserRole">
+            <End Role="Tb_Roles" EntitySet="Tb_Roles" />
+            <End Role="Tb_Users" EntitySet="Tb_Users" />
+          </AssociationSet>
+          <FunctionImport Name="Sp_Login" ReturnType="Collection(NetBillModel.Sp_Login_Result)">
+            <Parameter Name="usr" Mode="In" Type="String" />
+            <Parameter Name="pwd" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="Sp_Login_Result">
+          <Property Type="Byte" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Cell" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="User" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Pwd" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Role" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Area" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Photo" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NetBillModelStoreContainer" CdmEntityContainer="DbCon">
+          <EntitySetMapping Name="Tb_Area">
+            <EntityTypeMapping TypeName="NetBillModel.Tb_Area">
+              <MappingFragment StoreEntitySet="Tb_Area">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tb_Client">
+            <EntityTypeMapping TypeName="NetBillModel.Tb_Client">
+              <MappingFragment StoreEntitySet="Tb_Client">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AreaId" ColumnName="AreaId" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="Start" ColumnName="Start" />
+                <ScalarProperty Name="Close" ColumnName="Close" />
+                <ScalarProperty Name="MonAmt" ColumnName="MonAmt" />
+                <ScalarProperty Name="SrvAmt" ColumnName="SrvAmt" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tb_Roles">
+            <EntityTypeMapping TypeName="NetBillModel.Tb_Roles">
+              <MappingFragment StoreEntitySet="Tb_Roles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tb_Type">
+            <EntityTypeMapping TypeName="NetBillModel.Tb_Type">
+              <MappingFragment StoreEntitySet="Tb_Type">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="MonAmt" ColumnName="MonAmt" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tb_Users">
+            <EntityTypeMapping TypeName="NetBillModel.Tb_Users">
+              <MappingFragment StoreEntitySet="Tb_Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Cell" ColumnName="Cell" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="Pwd" ColumnName="Pwd" />
+                <ScalarProperty Name="AreaId" ColumnName="AreaId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tb_Collect">
+            <EntityTypeMapping TypeName="NetBillModel.Tb_Collect">
+              <MappingFragment StoreEntitySet="Tb_Collect">
+                <ScalarProperty Name="CustId" ColumnName="CustId" />
+                <ScalarProperty Name="PayDate" ColumnName="PayDate" />
+                <ScalarProperty Name="PayMon" ColumnName="PayMon" />
+                <ScalarProperty Name="PayAmt" ColumnName="PayAmt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vw_Dues">
+            <EntityTypeMapping TypeName="NetBillModel.Vw_Dues">
+              <MappingFragment StoreEntitySet="Vw_Dues">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="MonAmt" ColumnName="MonAmt" />
+                <ScalarProperty Name="FMon" ColumnName="FMon" />
+                <ScalarProperty Name="TMon" ColumnName="TMon" />
+                <ScalarProperty Name="TotMon" ColumnName="TotMon" />
+                <ScalarProperty Name="TotAmt" ColumnName="TotAmt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vw_Paid">
+            <EntityTypeMapping TypeName="NetBillModel.Vw_Paid">
+              <MappingFragment StoreEntitySet="Vw_Paid">
+                <ScalarProperty Name="CustId" ColumnName="CustId" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PayDate" ColumnName="PayDate" />
+                <ScalarProperty Name="PayMon" ColumnName="PayMon" />
+                <ScalarProperty Name="PayAmt" ColumnName="PayAmt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_Login" FunctionName="NetBillModel.Store.Sp_Login">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="NetBillModel.Sp_Login_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Cell" ColumnName="Cell" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="Pwd" ColumnName="Pwd" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
